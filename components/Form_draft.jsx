@@ -5,12 +5,21 @@ export default function Form({ onSubmit }) {
   const [ask, setAsk] = useState('');
   const [geo, setGeo] = useState('');
   const [personal, setPersonal] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post('/api/generate_draft', { ask, geo, personal });
-    onSubmit(response.data);
+    setLoading(true);
+    try {
+      const response = await axios.post('/api/generate_draft', { ask, geo, personal });
+      onSubmit(response.data);
+    } catch (error) {
+      // Optionally handle error here
+      console.error(error);
+    }
+    setLoading(false);
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -19,8 +28,8 @@ export default function Form({ onSubmit }) {
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
-            <div className="sm:col-span-4">
-              <label htmlFor="ask" className="block text-sm/6 font-medium text-gray-900">Ask </label>
+            <div className="sm:col-span-6">
+              <label htmlFor="ask" className="block text-sm/6 font-medium text-gray-900">I want to... </label>
               <div className="mt-2">
                 
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
@@ -32,8 +41,8 @@ export default function Form({ onSubmit }) {
             </div>
 
 
-            <div className="sm:col-span-4">    
-              <label htmlFor="geo" className="block text-sm/6 font-medium text-gray-900">Geo</label>
+            <div className="sm:col-span-6">    
+              <label htmlFor="geo" className="block text-sm/6 font-medium text-gray-900">Which geographic communities are affected?</label>
               <div className="mt-2">
 
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
@@ -44,8 +53,8 @@ export default function Form({ onSubmit }) {
               </div>
             </div>
 
-            <div className="sm:col-span-4">   
-              <label htmlFor="personal" className="block text-sm/6 font-medium text-gray-900">Personal</label>
+            <div className="sm:col-span-6">   
+              <label htmlFor="personal" className="block text-sm/6 font-medium text-gray-900">I personally care because...</label>
               <div className="mt-2">
                 
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
@@ -63,7 +72,16 @@ export default function Form({ onSubmit }) {
 
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer">Submit</button>
+      <button type="submit"
+              className="flex items-center rounded-lg bg-indigo-600 px-12 py-3 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+              disabled={loading}>
+              {loading && (
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                  </svg>)}
+              {loading ? "Loading..." : "Submit"}
+      </button>
       </div>
     </form>
   );

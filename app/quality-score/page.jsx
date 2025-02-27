@@ -2,8 +2,8 @@
 
 export default function PetitionQuality() {
   return (
-    <div className="min-h-screen bg-gray-50 p-6 rounded-lg">
-      <h1 className="text-3xl font-bold mb-4">Petition Quality Guidelines</h1>
+    <div className="bg-gray-50 mx-40 p-10 rounded-2xl">
+      <h1 className="text-2xl font-bold mb-4">Petition Quality Guidelines</h1>
       <p className="mb-2">
         A high-quality petition is clear, concise, and compelling. Here are some key factors:
       </p>

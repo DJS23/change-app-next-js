@@ -7,7 +7,7 @@ export default function Home() {
   const [result, setResult] = useState(null);
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg">
+    <div className="bg-gray-50 mx-40 p-10 rounded-2xl">
   <h1 className="text-2xl font-bold mb-4">Petition Generator</h1>
   <Form_draft onSubmit={setResult} />
   {result && (
