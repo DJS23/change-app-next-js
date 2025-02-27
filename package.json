@@ -9,14 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.7.9",
+    "next": "^15.1.6",
+    "openai": "^4.82.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "@babel/preset-react": "^7.26.3",
+    "@tailwindcss/postcss": "^4.0.6",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^4.0.6"
   }
 }
