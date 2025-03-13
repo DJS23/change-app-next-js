@@ -25,7 +25,7 @@ export default function NavBar() {
         {/* Right side: “Petition generator” link, visible on lg+ screens */}
         <div className="ml-8 hidden lg:flex lg:gap-x-12">
           <Link
-            href="/"
+            href="/generate-draft"
             className="text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
           >
             Petition generator

@@ -1,28 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import Form_draft from '../components/Form_draft.jsx';
 
 export default function Home() {
   const [result, setResult] = useState(null);
 
   return (
-    <div className="bg-gray-50 mx-40 p-10 rounded-2xl">
-  <h1 className="text-2xl font-bold mb-4">Petition Generator</h1>
-  <Form_draft onSubmit={setResult} />
-  {result && (
-    <div className="mt-6 space-y-4">
-    <h2 className="text-lg font-semibold">Result from GPT-4:</h2>
-    <pre className="bg-gray-200 p-3 rounded font-sans text-base whitespace-pre-wrap break-words">
-      {result.result_gpt4}
-    </pre>
+    <div className="relative isolate px-6 pt-14 lg:px-8">
+   
+      <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-56">
+        
+        <div className="text-center">
+          <h1 className="text-8xl font-bold tracking-tight text-balance text-gray-2500 sm:text-10xl">Welcome to the 
+            {" "}
+              <span className="bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
+                future
+              </span>
+            .
+          </h1>
 
-    <h2 className="text-lg font-semibold">Result from GPT-4o:</h2>
-    <pre className="bg-gray-200 p-3 rounded font-sans text-base whitespace-pre-wrap break-words">
-      {result.result_gpt4o}
-    </pre>
-  </div>
-  )}
-</div>
+        </div>
+
+        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+          <div className="relative rounded-full mt-8 px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+            Check out our latest prototype <a href="/quality-score" className="font-semibold text-indigo-600"><span className="absolute inset-0" aria-hidden="true"></span>here <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
   );
 }
