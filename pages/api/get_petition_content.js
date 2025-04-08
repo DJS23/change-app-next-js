@@ -23,22 +23,24 @@ export default async function handler(req, res) {
         return null;
       }
     }
-  
+    
+    
+
     const petitionSlug = getPetitionSlug(petitionUrl);
     if (!petitionSlug) {
       return res.status(400).json({ error: 'Invalid petition URL. Please provide a valid Change.org petition URL.' });
     }
-  
+
     const graphqlEndpoint = 'https://www.change.org/api-proxy/graphql';
     const query = `
-      query PetitionBySlug($slug: String!) {
-        petitionBySlug(slug: $slug) {
+      query PetitionBySlugOrId($slugOrId: String!) {
+        petitionBySlugOrId(slugOrId: $slugOrId) {
           ask
           description
         }
       }
     `;
-    const variables = { slug: petitionSlug };
+    const variables = { slugOrId: petitionSlug };
   
     try {
       const response = await fetch(graphqlEndpoint, {
@@ -50,13 +52,23 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({ query, variables })
       });
-  
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('GraphQL request failed:', response.status, errorText);
+        return res.status(response.status).json({ error: 'Error fetching petition data.' });
+      }
+
+
       if (response.ok) {
         const petitionData = await response.json();
-        if (!petitionData.data || !petitionData.data.petitionBySlug) {
+
+        if (!petitionData.data || !petitionData.data.petitionBySlugOrId) {
+          console.error('Petition not found in response:', petitionData);
           return res.status(404).json({ error: 'The petition was not found. Please check the petition URL.' });
+      
         }
-        return res.status(200).json(petitionData.data.petitionBySlug);
+        return res.status(200).json(petitionData.data.petitionBySlugOrId);
       } else {
         return res.status(response.status).json({ error: 'Error fetching petition data.' });
       }
