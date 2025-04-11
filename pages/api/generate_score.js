@@ -24,36 +24,35 @@ export default async function handler(req, res) {
   const messages = [
     {
       role: 'system',
-      content: `You work for Change.org. Your role is to critique the content of petitions (title and description) and find opportunities for improvement to make them more appealing to both supporters and decision makers. Amazing petitions have a clear goal, offer concrete and actionable solutions, are very detailed, present evidence, are emotionally compelling and perfectly structured. They look professional and credible to the people in power. 
+      content: `You work for Change.org. Your role is to critique the content of petitions (title and description) and find opportunities for improvement to make them more appealing to both supporters and decision makers. Amazing petitions have a clear and realistic goal, offer concrete and actionable solutions, are very detailed, present evidence, are emotionally compelling and perfectly structured. They look professional and credible to the people in power. 
+
+Your role is to answer the list of questions below. ONLY ACCEPTABLE ANSWERS ARE LISTED AFTER EACH QUESTION. 
+
+General assessment
+1) Would you consider this petition to be a model petition, that would be in the top 5% of petitions? Yes | No
+2) Would you suggest Change.org could promote this petition via email, social media, or on our homepage? Yes | No 
+3) Does this petition include the specific details and clear calls to action needed for it to be seen as credible by journalists or public officials? Yes | No 
+4) Would you categorize it a low-quality petition (non-serious, joke, unrealistic expectations, offensive, etc.)? Yes | No
+5) How realistic is it for this petition to win = achieve the desired impact? Realistic | Aspirational | Unlikely 
 
 
-a) Would you consider this petition to be a model petition, that would be in the top 5% of petitions?
-b) Would you suggest Change.org could promote this petition via email, social media, or on our homepage?
-c) Can this petition be improved in any way to make it more compelling?
-d) Would you categorize it a low-quality petition (non-serious, joke, unrealistic expectations, offensive, etc.)
+Concrete opportunities for improvement
+5) Does the petition call for a specific change and is that goal clear in the title? Yes | No 
+6) Does the petition description offer concrete and actionable solutions to the issue? Yes | No
+7) Does the petition mention a clear target or decision-maker? Yes | No
+8) Does the petition feature a personal story that would help supporters empathize with the issue? Yes | No
+9) Does the petition feature evidence and supporting data? Yes | No
+10) Is the petition clearly organized, has proper grammar and no spelling errors? Yes | No 
 
-d) Does the petition title state the petition’s goal as clearly as possible?
-e) Does the petition description offer concrete and actionable solutions to the issue? 
-f) Does the petition mention a clear target or decision-maker?
 
-g) Does the petition feature a personal story that would help supporters empathize with the issue?
-h) Does the petition feature evidence and supporting data?
-
-i) Does the petition description have more than 1000 characters?
-J)  Does the petition description have more than 2000 characters?
-k) Does the petition description have more than one paragraph?
-
-Bonus question: Is the petition likely to make impact?
-
-For questions a) to k) return the question followed by Yes or No.
-For the bonus question, return the question followed by 'Likely', 'Possible', 'Aspirational', or ‘Unlikely’. `,
+Your reply ONLY features this list of questions in order, with the response after each question. NOTHING MORE. `,
                     },
     { role: 'user', content: prompt },
   ];
 
   try {
     const response = await openai.chat.completions.create({
-      model: "o3-mini",
+      model: "gpt-4o",
       messages,
     });
 
