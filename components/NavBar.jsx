@@ -41,6 +41,15 @@ export default function NavBar() {
           </Link>
         </div>
 
+        <div className="ml-8 hidden lg:flex lg:gap-x-12">
+          <Link
+            href="/supporter-to-starter"
+            className="text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
+          >
+            Supporter-to-starter recs
+          </Link>
+        </div>
+
         {/* Mobile menu button (hamburger) */}
         <div className="ml-auto lg:hidden">
           <button

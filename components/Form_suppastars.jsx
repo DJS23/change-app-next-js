@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 
 export default function PetitionFetcher({ onSubmit }) {
     const [petitionUrl, setPetitionUrl] = useState('');
@@ -33,14 +32,14 @@ export default function PetitionFetcher({ onSubmit }) {
         
         
 
-        // Call the generate_score API with the petition data
-        const scoreResponse = await fetch('/api/generate_score', {
+        // Call the generate_suppastars_recs API with the petition data
+        const suppastarsResponse = await fetch('/api/generate_suppastars_recs', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ petitionTitle, petitionContent })
         });
  
-        const scoreData = await scoreResponse.json();
+        const suppastarsRecs = await suppastarsResponse.json();
 
         
  
@@ -48,7 +47,7 @@ export default function PetitionFetcher({ onSubmit }) {
         onSubmit({
           petitionTitle,
           petitionContent,
-          score: scoreData.score
+          recs: suppastarsRecs.recs
         });
         }
     } catch (error) {
@@ -70,7 +69,7 @@ export default function PetitionFetcher({ onSubmit }) {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
             <div className="sm:col-span-6">
-              <label htmlFor="ask" className="block text-sm/6 font-medium text-gray-900">Petition URL </label>
+              <label htmlFor="ask" className="block text-sm/6 font-medium text-gray-900">URL of the petition you just signed</label>
               <div className="mt-2">
                 
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
