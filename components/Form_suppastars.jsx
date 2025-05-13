@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function PetitionFetcher({ onSubmit }) {
     const [petitionUrl, setPetitionUrl] = useState('');
@@ -6,6 +6,23 @@ export default function PetitionFetcher({ onSubmit }) {
     const [petitionTitle, setPetitionTitle] = useState('');
     const [petitionContent, setPetitionContent] = useState('');
     const [loading, setLoading] = useState(false);
+    const [location, setLocation] = useState('');
+
+    useEffect(() => {
+      async function fetchLocation() {
+        try {
+          const res = await fetch('/api/get_location');
+          const data = await res.json();
+          if (data.city && data.country) {
+            setLocation(`${data.city}, ${data.region}, ${data.country}`);
+          }
+        } catch (error) {
+          console.error('Location fetch failed:', error);
+        }
+      }
+
+      fetchLocation();
+    }, []);
 
     async function handleSubmit(e) {
     e.preventDefault();
@@ -32,11 +49,11 @@ export default function PetitionFetcher({ onSubmit }) {
         
         
 
-        // Call the generate_suppastars_recs API with the petition data
+        // Call the generate_suppastars_recs API with the petition data and location
         const suppastarsResponse = await fetch('/api/generate_suppastars_recs', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ petitionTitle, petitionContent })
+          body: JSON.stringify({ petitionTitle, petitionContent, location })
         });
  
         const suppastarsRecs = await suppastarsResponse.json();
@@ -77,6 +94,11 @@ export default function PetitionFetcher({ onSubmit }) {
                 value={petitionUrl} 
                 onChange={(e) => setPetitionUrl(e.target.value)} />
                 </div>
+                {location && (
+                  <p className="text-sm text-gray-500 mt-6">
+                    Detected location: <span className="font-medium">{location}</span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -101,5 +123,3 @@ export default function PetitionFetcher({ onSubmit }) {
     </form>
   );
 }
-
-
