@@ -8,7 +8,18 @@ export default function PetitionFetcher({ onSubmit }) {
     const [loading, setLoading] = useState(false);
     const [location, setLocation] = useState('');
 
+    
     useEffect(() => {
+      async function fetchLocation() {
+        const res = await fetch('/api/get_location')
+        const { location } = await res.json()
+        setLocation(location)  // e.g. “San Francisco, California, United States”
+      }
+      fetchLocation()
+    }, [])
+    
+    
+/*     useEffect(() => {
       async function fetchLocation() {
         try {
           const res = await fetch('/api/get_location');
@@ -27,7 +38,7 @@ export default function PetitionFetcher({ onSubmit }) {
       }
 
       fetchLocation();
-    }, []);
+    }, []); */
 
     async function handleSubmit(e) {
     e.preventDefault();

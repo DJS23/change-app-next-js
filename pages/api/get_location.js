@@ -1,6 +1,32 @@
 
 
-export default async function handler(req, res) {
+export const config = { runtime: 'edge' }
+
+export default async function handler(request) {
+  // request.geo is injected by Vercel at the edge
+  const {
+    city = '',
+    region = '',
+    country = '',
+    countryCode = '',
+  } = request.geo || {}
+
+  // Build a location string, or fall back to empty
+  const location = [city, region, country]
+    .filter(Boolean)
+    .join(', ')
+
+  return new Response(
+    JSON.stringify({ city, region, country, countryCode, location }),
+    {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    }
+  )
+}
+
+
+/* export default async function handler(req, res) {
   try {
     // Disable caching
     // res.setHeader('Cache-Control', 'no-store');
@@ -23,4 +49,4 @@ export default async function handler(req, res) {
     console.error('Failed to fetch location:', error);
     res.status(500).json({ error: 'Failed to get location' });
   }
-}
+} */
