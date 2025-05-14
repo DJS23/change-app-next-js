@@ -3,16 +3,22 @@
 export default async function handler(req, res) {
   try {
     // Disable caching
-    res.setHeader('Cache-Control', 'no-store');
-    
-    const response = await fetch('https://ipapi.co/json/');
+    // res.setHeader('Cache-Control', 'no-store');
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+    const response = await fetch(`https://ipapi.co/${ip}/json/`);
+    if (!response.ok) {
+      console.error('Geo API HTTP error:', response.status, await response.text());
+      return res.status(200).json({});
+    }
     const data = await response.json();
-
-    res.status(200).json({
-      city: data.city,
-      region: data.region,
-      country: data.country_name
-    });
+    const { city, region, country_name: country, error, reason } = data;
+    
+    // if ipapi returns an error or no useful fields, fallback
+    if (error || (!city && !region && !country)) {
+      console.warn('Geo lookup failed or empty for IP:', ip, data);
+      return res.status(200).json({});
+    }
+    return res.status(200).json({ city, region, country });
   } catch (error) {
     console.error('Failed to fetch location:', error);
     res.status(500).json({ error: 'Failed to get location' });
