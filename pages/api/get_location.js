@@ -1,31 +1,17 @@
 export const config = { runtime: 'edge' }
 
 export default async function handler(request) {
-  // DEBUG: inspect geolocation and headers in production
-  console.log('🔍 request.geo:', request.geo);
-  console.log('🔍 x-forwarded-for header:', request.headers.get('x-forwarded-for'));
-  console.log('🔍 x-real-ip header:', request.headers.get('x-real-ip'));
-
-  // request.geo is injected by Vercel at the edge
-  const {
-    city = '',
-    region = '',
-    country = '',
-    countryCode = '',
-  } = request.geo || {}
-
-  // Build a location string, or fall back to empty
-  const location = [city, region, country]
-    .filter(Boolean)
-    .join(', ')
+  // Derive location solely from Vercel geolocation headers
+  const city        = request.headers.get('x-vercel-ip-city')           || '';
+  const region      = request.headers.get('x-vercel-ip-country-region') || '';
+  const countryCode = request.headers.get('x-vercel-ip-country')        || '';
+  const country     = countryCode; // fallback to country code as country name
+  const location    = [city, region, country].filter(Boolean).join(', ');
 
   return new Response(
     JSON.stringify({ city, region, country, countryCode, location }),
-    {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    }
-  )
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  );
 }
 
 
