@@ -2,7 +2,8 @@ export const config = { runtime: 'edge' }
 
 export default async function handler(request) {
   // Derive location solely from Vercel geolocation headers
-  const city        = request.headers.get('x-vercel-ip-city')           || '';
+  const rawCity = request.headers.get('x-vercel-ip-city') || '';
+  const city = decodeURIComponent(rawCity);
   const region      = request.headers.get('x-vercel-ip-country-region') || '';
   const countryCode = request.headers.get('x-vercel-ip-country')        || '';
   const country     = countryCode; // fallback to country code as country name
