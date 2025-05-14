@@ -13,8 +13,13 @@ export default function PetitionFetcher({ onSubmit }) {
         try {
           const res = await fetch('/api/get_location');
           const data = await res.json();
-          if (data.city && data.country) {
-            setLocation(`${data.city}, ${data.region}, ${data.country}`);
+          console.log('[get_location] payload:', data);
+          if (data && Object.keys(data).length > 0) {
+            setLocation(
+              [data.city, data.region, data.country]
+                .filter(Boolean)
+                .join(', ')
+            );
           }
         } catch (error) {
           console.error('Location fetch failed:', error);
@@ -94,11 +99,11 @@ export default function PetitionFetcher({ onSubmit }) {
                 value={petitionUrl} 
                 onChange={(e) => setPetitionUrl(e.target.value)} />
                 </div>
-                {location && (
-                  <p className="text-sm text-gray-500 mt-6">
-                    Detected location: <span className="font-medium">{location}</span>
-                  </p>
-                )}
+                <p className="text-sm text-gray-500 mt-6">
+                  {location
+                    ? <>Detected location: <span className="font-medium">{location}</span></>
+                    : 'No location found yet...'}
+                </p>
               </div>
             </div>
 

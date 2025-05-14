@@ -2,6 +2,9 @@
 
 export default async function handler(req, res) {
   try {
+    // Disable caching
+    res.setHeader('Cache-Control', 'no-store');
+    
     const response = await fetch('https://ipapi.co/json/');
     const data = await response.json();
 
