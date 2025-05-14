@@ -1,8 +1,11 @@
-
-
 export const config = { runtime: 'edge' }
 
 export default async function handler(request) {
+  // DEBUG: inspect geolocation and headers in production
+  console.log('🔍 request.geo:', request.geo);
+  console.log('🔍 x-forwarded-for header:', request.headers.get('x-forwarded-for'));
+  console.log('🔍 x-real-ip header:', request.headers.get('x-real-ip'));
+
   // request.geo is injected by Vercel at the edge
   const {
     city = '',
