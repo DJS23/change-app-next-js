@@ -1,33 +1,45 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
+import Form_petition_rec from '../../components/Form_petition_rec'
 
-export default function GenerateDraft() {
-  const [result, setResult] = useState(null);
+export default function PetitionRecPage() {
+  const [recommendation, setRecommendation] = useState(null)
+  const [loading, setLoading]           = useState(false)
+  const [error, setError]               = useState(null)
+
+  const handleAudioSubmit = async (audioBase64) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/recommend_petition', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audio: audioBase64 })
+      })
+      if (!res.ok) throw new Error(`Status ${res.status}`)
+      const { recommendation } = await res.json()
+      setRecommendation(recommendation)
+    } catch (err) {
+      console.error(err)
+      setError('Sorry, could not get a recommendation. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <div className="relative isolate px-6 pt-6 lg:px-8">
-   
-      <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-56">
-        
-        <div className="text-center">
-          <h1 className="text-8xl font-bold tracking-tight text-balance text-gray-2500 sm:text-10xl">This page is  
-            {" "}
-              <span className="bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
-                under construction
-              </span>
-            .
-          </h1>
+    <div className="mx-auto p-6 space-y-6">
+      
+      <Form_petition_rec
+        onSubmit={handleAudioSubmit}
+        disabled={loading}
+      />
 
-        </div>
-
-        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <div className="relative rounded-full mt-8 px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-            Check out our latest prototype <a href="/supporter-to-starter" className="font-semibold text-indigo-600"><span className="absolute inset-0" aria-hidden="true"></span>here <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </div>
-      </div>
+      {loading && <p className="text-blue-600">Processing your audio…</p>}
+      {error   && <p className="text-red-600">{error}</p>}
 
     </div>
-  );
+  )
 }

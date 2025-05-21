@@ -18,27 +18,6 @@ export default function PetitionFetcher({ onSubmit }) {
       fetchLocation()
     }, [])
     
-    
-/*     useEffect(() => {
-      async function fetchLocation() {
-        try {
-          const res = await fetch('/api/get_location');
-          const data = await res.json();
-          console.log('[get_location] payload:', data);
-          if (data && Object.keys(data).length > 0) {
-            setLocation(
-              [data.city, data.region, data.country]
-                .filter(Boolean)
-                .join(', ')
-            );
-          }
-        } catch (error) {
-          console.error('Location fetch failed:', error);
-        }
-      }
-
-      fetchLocation();
-    }, []); */
 
     async function handleSubmit(e) {
     e.preventDefault();

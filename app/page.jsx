@@ -6,9 +6,9 @@ export default function Home() {
   const [result, setResult] = useState(null);
 
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8">
+    <div className="relative isolate px-6 pt-6 lg:px-8">
    
-      <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-56">
+      <div className="mx-auto max-w-2xl py-8 sm:py-48 lg:py-38">
         
         <div className="text-center">
           <h1 className="text-8xl font-bold tracking-tight text-balance text-gray-2500 sm:text-10xl">Welcome to the 

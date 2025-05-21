@@ -11,7 +11,7 @@ export default function SupporterToStarter() {
   const [petitionContent, setPetitionContent] = useState('');
 
   return (
-    <div className="bg-gray-50 mx-40 p-10 rounded-2xl">
+    <div className="bg-gray-100 mx-40 p-10 rounded-2xl">
       <h1 className="text-2xl font-bold mb-4">Recommendations for next petitions to start</h1>
       <Form_suppastars onSubmit={setResult} />
       {result && (
