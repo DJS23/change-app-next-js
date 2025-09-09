@@ -42,11 +42,11 @@ export default async function handler(req, res) {
 - Return the single most similar victorious petition.
 - Prefer matches from the same country/region when content similarity is close.
 - If nothing is clearly relevant, return an empty result with reason. 
-Output STRICT JSON with keys: {"id","title","url","similarity","match_reason","excerpts"} where "excerpts" is an array of short supporting quotes.`;
+Output STRICT JSON with keys: {"id","title","url","similarity","match_reason","excerpt"} where "excerpts" is an array of a single supporting quote.`;
 
   try {
     const response = await openai.responses.create({
-      model: "gpt-5",
+      model: "gpt-5-mini",
       input: prompt,
       instructions: system,
       // Use OpenAI's built-in File Search tool attached to your vector store
