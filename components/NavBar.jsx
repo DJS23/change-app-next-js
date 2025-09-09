@@ -7,6 +7,8 @@ export default function NavBar() {
   // Track whether the mobile menu is open
   const [isOpen, setIsOpen] = useState(false);
 
+  const closeMenu = () => setIsOpen(false);
+
   return (
     <header className="inset-x-0 top-0 z-50">
       <nav className="mx-auto flex items-baseline p-6 lg:px-8">
@@ -22,7 +24,7 @@ export default function NavBar() {
           </Link>
         </div>
 
-        {/* Right side: “Petition generator” link, visible on lg+ screens */}
+        {/* Right side: Links, visible on lg+ screens (unchanged styling) */}
         <div className="ml-8 hidden lg:flex lg:gap-x-12">
           <Link
             href="/generate-draft"
@@ -50,14 +52,25 @@ export default function NavBar() {
           </Link>
         </div>
 
+        <div className="ml-8 hidden lg:flex lg:gap-x-12">
+          <Link
+            href="/victory-finder"
+            className="text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
+          >
+            Victory finder
+          </Link>
+        </div>
+
         {/* Mobile menu button (hamburger) */}
         <div className="ml-auto lg:hidden">
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            aria-controls="mobile-menu"
+            aria-expanded={isOpen}
           >
-            <span className="sr-only">Open main menu</span>
+            <span className="sr-only">Toggle main menu</span>
             <svg
               className="size-6"
               fill="none"
@@ -78,14 +91,35 @@ export default function NavBar() {
 
       {/* Mobile menu panel, only shown when isOpen === true */}
       {isOpen && (
-        <div className="block lg:hidden px-6 pb-4">
+        <div id="mobile-menu" className="block lg:hidden px-6 pb-4">
           <Link
-            href="/"
+            href="/generate-draft"
+            onClick={closeMenu}
             className="block mb-2 text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
           >
             Petition generator
           </Link>
-          {/* Add any other mobile-only links or sections here */}
+          <Link
+            href="/quality-score"
+            onClick={closeMenu}
+            className="block mb-2 text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
+          >
+            Quality score
+          </Link>
+          <Link
+            href="/supporter-to-starter"
+            onClick={closeMenu}
+            className="block mb-2 text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
+          >
+            Supporter-to-starter recs
+          </Link>
+          <Link
+            href="/victory-finder"
+            onClick={closeMenu}
+            className="block mb-2 text-sm font-semibold leading-tight text-gray-500 hover:text-gray-700"
+          >
+            Victory finder
+          </Link>
         </div>
       )}
     </header>
